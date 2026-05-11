@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+
+<title>Stuff for Sale</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- CSS Stylesheets -->
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/master.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>    
+<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js" type="text/javascript"></script>
+<script src="https://m-e-conroy.github.io/angular-dialog-service/javascripts/dialogs.min.js"></script> 
+<script src="js/stuffforsale.js"></script>
+
+</head>
+
+<body ng-app="stuffForSale" ng-controller="mainController as ctrl">
+
+  <!-- Top Navigation Bar -->
+  <nav class="store-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-name">The Market</span>
+      </div>
+      <div class="nav-tagline">Local listings and small finds</div>
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <div class="store-layout">
+
+    <!-- LEFT: Product Listings -->
+    <main class="listings-panel">
+
+      <div class="listings-header">
+        <p class="section-kicker">Current inventory</p>
+        <h1 class="store-title">Stuff for Sale</h1>
+        <p class="store-subtitle">A simple board for adding, updating, and removing items.</p>
+      </div>
+
+      <!-- Items Grid -->
+      <div class="items-grid">
+        <div class="item-card" ng-repeat="item in listing">
+          <div class="item-card-inner">
+            <div class="item-badge">Listing</div>
+            <h2 class="item-name">{{ item.name }}</h2>
+            <div class="item-price-tag">
+              <span class="price-label">Price</span>
+              <span class="price-value">{{ item.price | currency }}</span>
+            </div>
+            <div class="item-actions">
+              <button class="btn-action btn-edit" ng-click="renameItem(item.id)">
+                Rename
+              </button>
+              <button class="btn-action btn-price" ng-click="updatePrice(item.id)">
+                Price
+              </button>
+              <button class="btn-action btn-delete" ng-click="deleteItem(item.id)">
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Item Form -->
+      <div class="add-item-section">
+        <div class="add-item-card">
+          <div class="add-item-header">
+            <h3 class="add-title">Add an item</h3>
+            <p class="add-copy">Keep the name short and use a clear asking price.</p>
+          </div>
+          <ng-form name="addItemDialog" novalidate="" role="form" class="ng-pristine ng-invalid ng-invalid-required">
+            <div class="form-group input-group-lg" ng-class="{true: 'has-error'}[addItemDialog.itemName.$dirty && itemNameDialog.itemName.$invalid]">
+              <div class="input-row">
+                <div class="input-field-group">
+                  <label class="field-label" for="itemName">Item Name</label>
+                  <input type="text"
+                    class="store-input ng-pristine ng-invalid ng-invalid-required"
+                    name="itemName"
+                    id="itemName"
+                    ng-model="newItemName"
+                    ng-keyup="hitEnter($event)"
+                    placeholder="Vintage lamp"
+                    required=""
+                    ng-maxlegth="25">
+                </div>
+                <div class="input-field-group">
+                  <label class="field-label" for="itemPrice">Price ($)</label>
+                  <input type="currency"
+                    class="store-input ng-pristine ng-invalid ng-invalid-required"
+                    name="itemPrice"
+                    id="itemPrice"
+                    ng-model="newItemPrice"
+                    ng-keyup="hitEnter($event)"
+                    placeholder="49.99"
+                    required="">
+                </div>
+              </div>
+              <button class="btn-add-item" ng-click="addItem()">
+                Add listing
+              </button>
+            </div>
+          </ng-form>
+        </div>
+      </div>
+
+    </main>
+
+        <!-- Stats widget -->
+        <div class="store-stats">
+          <div class="stat-item">
+            <span class="stat-label">Items Listed</span>
+            <span class="stat-value">{{ listing.length }}</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="store-footer">
+    <p>© 2026 Illinois · Built with ♥ by Illinois</p>
+  </footer>
+
+</body>
+</html>
